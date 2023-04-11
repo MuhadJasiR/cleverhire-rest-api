@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/job_seeker/controller/apiServices/delete_post_services.dart';
+import 'package:cleverhire/job_seeker/controller/apiServices/post_like_services.dart';
 import 'package:cleverhire/job_seeker/controller/provider/get_uploaded_post_provider.dart';
 import 'package:cleverhire/job_seeker/controller/provider/local_functions_provider.dart';
 import 'package:cleverhire/job_seeker/view/home/add_post_screen.dart';
@@ -147,13 +150,34 @@ class HomeScreen extends StatelessWidget {
                                         Icons.thumb_up_alt,
                                         color: isLiked ? kMainColor : null,
                                       ),
+                                      onTap: (isLiked) async {
+                                        value2.isLiked = !isLiked;
+                                        value2.likedCount +=
+                                            value2.isLiked ? 1 : -1;
+                                        // value2.isLiked = !value2.isLiked;
+                                        // value2.notifyListeners();
+                                        // log(value2.isLiked.toString());
+                                        // value2.isLiked
+                                        //     ? value2.likedCount++
+                                        //     : value2.likedCount--;
+                                        // value2.notifyListeners();
+                                        value2.isLiked
+                                            ? await PostLikeApiServices()
+                                                .postLiking(value
+                                                    .uploadedPost![index].id)
+                                            : await PostLikeApiServices()
+                                                .postDisLiking(value
+                                                    .uploadedPost![index].id);
+                                        return !isLiked;
+                                      },
                                     ),
                                     IconButton(
                                         onPressed: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const CommentScreen()));
+                                          // Navigator.of(context).push(
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             CommentScreen())
+                                          //             );
                                         },
                                         icon: const Icon(Icons.chat_outlined)),
                                     IconButton(

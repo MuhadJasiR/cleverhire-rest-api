@@ -17,7 +17,7 @@ class LocalFunctionProvider with ChangeNotifier {
   File? pdfFile;
   File? pdfName;
   bool isLiked = false;
-  int likedCount = 11;
+  int likedCount = 0;
 
   Future pickImage() async {
     try {

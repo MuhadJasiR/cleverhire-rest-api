@@ -113,13 +113,6 @@ class ProfileEdit extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         isDense: true),
-                    // validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return "Please select date";
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
                   ),
                   kHeight(15),
                   const Text("address"),

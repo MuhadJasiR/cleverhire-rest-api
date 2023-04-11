@@ -27,6 +27,7 @@ class AddPostScreen extends StatelessWidget {
                   if (_formKey.currentState!.validate() &&
                       value2.imageFromGallery != null) {
                     await value.uploadImageProviderFunction(context);
+
                     // ignore: invalid_use_of_protected_member
                     value.notifyListeners();
                     value3.fetchUploadedPost();
