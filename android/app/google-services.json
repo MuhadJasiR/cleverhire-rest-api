@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "933534506363",
+    "project_id": "cleverhire-8e0a4",
+    "storage_bucket": "cleverhire-8e0a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933534506363:android:78c9614810618f735fb1de",
+        "android_client_info": {
+          "package_name": "com.example.cleverhire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933534506363-cva7mq98orc2uir519gdi0uc0qfbfpuu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ8oz9aJiyCkiFVsmrU7Ukggje665A9I4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933534506363-cva7mq98orc2uir519gdi0uc0qfbfpuu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
