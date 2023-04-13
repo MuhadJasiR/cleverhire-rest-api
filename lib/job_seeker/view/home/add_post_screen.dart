@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/job_seeker/controller/provider/get_uploaded_post_provider.dart';
 import 'package:cleverhire/job_seeker/controller/provider/local_functions_provider.dart';
@@ -31,10 +32,15 @@ class AddPostScreen extends StatelessWidget {
                     // ignore: invalid_use_of_protected_member
                     value.notifyListeners();
                     value3.fetchUploadedPost();
+                    toast("success");
                     value.disposeTextField(context);
                   } else {
                     showSimpleNotification(
-                        const Text("please select an image"));
+                        const Text(
+                          "Please select an image!",
+                          style: TextStyle(color: kWhiteColor),
+                        ),
+                        background: Colors.red);
                   }
                 },
                 child: const Text("Post")),

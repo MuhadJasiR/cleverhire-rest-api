@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/job_seeker/controller/apiServices/delete_post_services.dart';
@@ -65,7 +63,22 @@ class HomeScreen extends StatelessWidget {
                                         fontSize: 12, color: Colors.grey),
                                   ),
                                   leading: CircleAvatar(
-                                      child: Image.asset("assets/profile.png")),
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 92, 0, 88),
+                                    // ignore: unnecessary_null_comparison
+                                    backgroundImage: value.uploadedPost![index]
+                                                .user.profile.profileImage ==
+                                            null
+                                        ? const AssetImage(
+                                            "assets/profile.png") // use AssetImage for local image assets
+                                        : NetworkImage(value
+                                                .uploadedPost![index]
+                                                .user
+                                                .profile
+                                                .profileImage)
+                                            as ImageProvider<Object>,
+                                    radius: 23,
+                                  ),
                                   trailing: IconButton(
                                       onPressed: () async {
                                         showDialog(
@@ -115,11 +128,14 @@ class HomeScreen extends StatelessWidget {
                                         height: 300,
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.network(
-                                        value.uploadedPost![index].image,
-                                        height: 300,
-                                        fit: BoxFit.cover,
-                                      ),
+                                    : value.isLoading
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : Image.network(
+                                            value.uploadedPost![index].image,
+                                            fit: BoxFit.fitWidth,
+                                          ),
                                 const Divider(),
                                 SizedBox(
                                   width: double.infinity,
@@ -145,7 +161,8 @@ class HomeScreen extends StatelessWidget {
                                   children: [
                                     LikeButton(
                                       isLiked: value2.isLiked,
-                                      likeCount: value2.likedCount,
+                                      likeCount: value
+                                          .uploadedPost![index].likes.length,
                                       likeBuilder: (isLiked) => Icon(
                                         Icons.thumb_up_alt,
                                         color: isLiked ? kMainColor : null,
@@ -173,11 +190,12 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     IconButton(
                                         onPressed: () {
-                                          // Navigator.of(context).push(
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             CommentScreen())
-                                          //             );
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CommentScreen(
+                                                        index1: index,
+                                                      )));
                                         },
                                         icon: const Icon(Icons.chat_outlined)),
                                     IconButton(

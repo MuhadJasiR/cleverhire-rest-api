@@ -174,7 +174,10 @@ class RecruiterApplicationScreen extends StatelessWidget {
                                                                 ],
                                                               ));
                                                 },
-                                                icon: const Icon(Icons.clear))
+                                                icon: const Icon(
+                                                  Icons.delete_outline_rounded,
+                                                  color: Colors.red,
+                                                ))
                                           ],
                                         )),
                                       ),

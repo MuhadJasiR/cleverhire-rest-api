@@ -4,6 +4,7 @@ import 'package:cleverhire/job_seeker/controller/provider/get_applied_jobs_provi
 import 'package:cleverhire/job_seeker/controller/provider/get_uploaded_post_provider.dart';
 import 'package:cleverhire/job_seeker/controller/provider/search_vacancy_provider.dart';
 import 'package:cleverhire/job_seeker/controller/provider/seeker_login_provider.dart';
+import 'package:cleverhire/job_seeker/controller/provider/update_seeker_details_provider.dart';
 import 'package:cleverhire/job_seeker/controller/provider/upload_image_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/company_login_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/create_vacancy_provider.dart';
@@ -22,6 +23,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'authentication/controller/provider/otp_verification.dart';
 import 'authentication/controller/provider/sign_up_provider.dart';
+import 'job_seeker/controller/provider/get_seeker_details_provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +54,9 @@ class MyApp extends StatelessWidget {
         ListenableProvider(create: ((context) => GetAppliedJobsProvider())),
         ListenableProvider(create: ((context) => UpdateVacancyProvider())),
         ListenableProvider(create: ((context) => UploadImageProvider())),
-        ListenableProvider(create: ((context) => GetUploadedPostProvider()))
+        ListenableProvider(create: ((context) => GetUploadedPostProvider())),
+        ListenableProvider(create: ((context) => GetSeekerDetailsProvider())),
+        ListenableProvider(create: ((context) => UpdateSeekerDetailsProvider()))
       ],
       child: OverlaySupport.global(
         child: MaterialApp(

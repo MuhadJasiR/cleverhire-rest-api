@@ -6,15 +6,18 @@ import 'package:flutter/material.dart';
 
 class GetUploadedPostProvider with ChangeNotifier {
   List<GetUploadImageModel>? uploadedPost;
+
   bool isLoading = false;
   String? formattedDate;
 
   Future fetchUploadedPost() async {
     isLoading = true;
-    GetUploadedPostApiServices().getUploadedPost().then((value) {
+    await GetUploadedPostApiServices().getUploadedPost().then((value) {
       uploadedPost = value;
       notifyListeners();
       isLoading = false;
+      notifyListeners();
+      uploadedPost!.reversed.toList();
       notifyListeners();
     });
     isLoading = false;

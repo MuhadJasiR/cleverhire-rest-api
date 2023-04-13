@@ -31,7 +31,7 @@ class BottomNavigation extends StatelessWidget {
               destinations: const [
                 NavigationDestination(icon: Icon(Icons.home), label: "Home"),
                 NavigationDestination(
-                    icon: Icon(Icons.view_list_rounded), label: "Explore"),
+                    icon: Icon(Icons.cases_rounded), label: "Explore"),
                 NavigationDestination(
                     icon: Icon(Icons.grid_view_rounded), label: "Applied Jobs"),
                 NavigationDestination(

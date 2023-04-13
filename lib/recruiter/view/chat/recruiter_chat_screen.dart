@@ -1,5 +1,8 @@
+import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'recuiter_message_screen.dart';
 
 class RecruiterChatScreen extends StatelessWidget {
   const RecruiterChatScreen({super.key});
@@ -18,10 +21,15 @@ class RecruiterChatScreen extends StatelessWidget {
             Column(
               children: [
                 const CupertinoSearchTextField(),
+                kHeight(10),
                 ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) => GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      RecruiterMessageScreen())),
                           child: ListTile(
                             leading: CircleAvatar(
                               radius: 30,
