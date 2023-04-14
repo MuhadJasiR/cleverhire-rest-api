@@ -45,7 +45,6 @@ class JobSeekerDetails extends StatelessWidget {
                         radius: 30,
                         child: value.appliedPeoples == null ||
                                 index >= value.appliedPeoples!.length ||
-                                value.appliedPeoples![index].profile == null ||
                                 value.appliedPeoples![index].profile.isEmpty
                             ? Image.asset(
                                 "assets/profile.png",

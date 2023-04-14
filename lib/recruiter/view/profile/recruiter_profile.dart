@@ -5,6 +5,7 @@ import 'package:cleverhire/recruiter/controller/provider/local_functions_recruit
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/color/color.dart';
 import '../../../core/constraints/constraints.dart';
@@ -217,10 +218,13 @@ class RecruiterProfile extends StatelessWidget {
                     child: ElevatedButton(
                       style:
                           ElevatedButton.styleFrom(backgroundColor: kMainColor),
-                      onPressed: () {
+                      onPressed: () async {
                         if (userRecruiterKey.currentState!.validate()) {
                           final result = value.companyLogin();
                           log(result.toString());
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setBool("seen", true);
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (context) =>

@@ -67,8 +67,7 @@ class HomeScreen extends StatelessWidget {
                                         const Color.fromARGB(255, 92, 0, 88),
                                     // ignore: unnecessary_null_comparison
                                     backgroundImage: value.uploadedPost![index]
-                                                .user.profile.profileImage ==
-                                            null
+                                            .user.profile.profileImage.isEmpty
                                         ? const AssetImage(
                                             "assets/profile.png") // use AssetImage for local image assets
                                         : NetworkImage(value

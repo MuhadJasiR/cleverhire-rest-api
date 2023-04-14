@@ -52,6 +52,9 @@ dependencies:
   shimmer: ^2.0.0
   syncfusion_flutter_pdfviewer: ^20.4.54
   comment_box: ^0.0.18
+  grouped_list: ^5.1.2
+  shared_preferences: ^2.1.0
+  
 
 dev_dependencies:
   flutter_lints: ^2.0.0

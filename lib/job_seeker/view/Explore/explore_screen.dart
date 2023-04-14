@@ -10,11 +10,10 @@ import 'package:provider/provider.dart';
 import 'job_details_screen.dart';
 import 'widget/shimmer_explore_screen.dart';
 
-// ignore: must_be_immutable
 class ExploreScreen extends StatelessWidget {
   ExploreScreen({super.key});
 
-  TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

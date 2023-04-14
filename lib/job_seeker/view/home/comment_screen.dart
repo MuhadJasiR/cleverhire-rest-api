@@ -69,13 +69,18 @@ class CommentScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: CircleAvatar(
-                        radius: 25,
-                        child: value.uploadedPost![index1].comments[index].user
-                                .profile.profileImage.isNotEmpty
-                            ? Image.network(value.uploadedPost![index1]
-                                .comments[index].user.profile.profileImage)
-                            : Image.asset("assets/profile.png"),
-                      ),
+                          radius: 25,
+                          backgroundImage: value
+                                  .uploadedPost![index1]
+                                  .comments[index]
+                                  .user
+                                  .profile
+                                  .profileImage
+                                  .isNotEmpty
+                              ? NetworkImage(value.uploadedPost![index1]
+                                  .comments[index].user.profile.profileImage)
+                              : const AssetImage("assets/profile.png")
+                                  as ImageProvider<Object>),
                       title: Text(value
                           .uploadedPost![index1].comments[index].user.username),
                       subtitle: Text(

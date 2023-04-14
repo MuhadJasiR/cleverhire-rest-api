@@ -1,7 +1,7 @@
 import 'dart:developer';
-
-import 'package:cleverhire/job_seeker/controller/apiServices/get_uploaded_post_services.dart';
 import 'package:cleverhire/job_seeker/model/get_post_model.dart';
+import 'package:cleverhire/job_seeker/controller/apiServices/get_uploaded_post_services.dart';
+
 import 'package:flutter/material.dart';
 
 class GetUploadedPostProvider with ChangeNotifier {

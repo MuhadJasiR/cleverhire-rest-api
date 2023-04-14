@@ -3,10 +3,12 @@
 import 'dart:developer';
 
 import 'package:cleverhire/authentication/view/sign_in_screen.dart';
+import 'package:cleverhire/authentication/view/starting_screen.dart';
 import 'package:cleverhire/recruiter/view/home/recruiter_bottom_navigation.dart';
 import 'package:cleverhire/widgets/main_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../job_seeker/view/home/bottom_navigation_screen.dart';
 
@@ -18,18 +20,27 @@ class SplashScreen extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await Future.delayed(const Duration(seconds: 1));
       FlutterSecureStorage storage = const FlutterSecureStorage();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool seen = (prefs.getBool("seen") ?? false);
       String? token = await storage.read(key: 'access_token');
       String? roleChecking = await storage.read(key: 'role');
       log(roleChecking!);
       final String role = roleChecking;
       if (token == null) {
         splashScreen(context);
-      } else if (role == '"recruiter"') {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: ((ctx) => RecruiterBottomNavigation())));
-      } else if (role == '"seeker"') {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: ((ctx) => BottomNavigation())));
+      } else if (seen) {
+        if (role == '"recruiter"') {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: ((ctx) => RecruiterBottomNavigation())));
+        } else if (role == '"seeker"') {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: ((ctx) => BottomNavigation())));
+        }
+      } else {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const StartingScreen()));
       }
     });
     return const Scaffold(

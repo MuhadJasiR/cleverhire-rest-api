@@ -5,6 +5,7 @@ import 'package:cleverhire/job_seeker/model/seeker_login_req_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../view/home/bottom_navigation_screen.dart';
 
@@ -26,8 +27,12 @@ class SeekerLoginApiServices {
       if (response.statusCode == 200 || response.statusCode == 201) {
         log(response.data.toString());
         // ignore: use_build_context_synchronously
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => BottomNavigation()));
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool("seen", true);
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => BottomNavigation()),
+            (route) => false);
         if (response.data["status"] == 422) {
           log(response.data["message"]);
         }
