@@ -34,152 +34,170 @@ class ExploreScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Consumer<GetCreatedVacancyProvider>(
-          builder: (context, value, child) => ListView(
-            children: [
-              Column(
-                children: [
-                  CupertinoSearchTextField(
-                    style: const TextStyle(color: kWhiteColor),
-                    itemSize: 25,
-                    itemColor: kMainColor,
-                    onChanged: (searchQuery) {
-                      value.runFilter(searchQuery);
-                    },
-                  ),
-                  kHeight(20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          builder: (context, value, child) {
+            return value.createdVacancy == null
+                ? const Center(
+                    child: Text(
+                      "Certainly! Please take your time and check back with us later to see if any job vacancies have been created. We look forward to potentially working with you in the future!",
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : ListView(
                     children: [
-                      const Text(
-                        "Job Recommendation",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "Saved jobs",
-                            style: TextStyle(color: kMainColor),
-                          ))
-                    ],
-                  ),
-                  kHeight(10),
-                  value.isLoading
-                      ? ShimmerExploreScreen(
-                          icons: const Icon(Icons.bookmark),
-                        )
-                      : value.createdVacancy == null
-                          ? const SizedBox()
-                          : ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  JobDetailsAndApply(
-                                                    index2: index,
-                                                  )));
-                                    },
-                                    child: Consumer<GetCreatedVacancyProvider>(
-                                      builder: (context, value, child) =>
-                                          SizedBox(
-                                        height: 130,
-                                        // width: 340,
-                                        child: Card(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              // kWidth(10),
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                child: Image.network(
-                                                  "https://pbs.twimg.com/profile_images/1493919551553167360/XIoPFoOK_400x400.jpg",
-                                                  height: 90,
-                                                ),
-                                              ),
-                                              // kWidth(10),
-                                              SizedBox(
-                                                width: 200,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Expanded(
-                                                          child: SizedBox(
-                                                            width:
-                                                                double.infinity,
-                                                            child: Text(
-                                                              value
-                                                                  .createdVacancy![
-                                                                      index]
-                                                                  .position,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: const TextStyle(
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                      Column(
+                        children: [
+                          CupertinoSearchTextField(
+                            style: const TextStyle(color: kWhiteColor),
+                            itemSize: 25,
+                            itemColor: kMainColor,
+                            onChanged: (searchQuery) {
+                              value.runFilter(searchQuery);
+                            },
+                          ),
+                          kHeight(20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Job Recommendation",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    "Saved jobs",
+                                    style: TextStyle(color: kMainColor),
+                                  ))
+                            ],
+                          ),
+                          kHeight(10),
+                          value.isLoading
+                              ? ShimmerExploreScreen(
+                                  icons: const Icon(Icons.bookmark),
+                                )
+                              : value.createdVacancy == null
+                                  ? const SizedBox()
+                                  : ListView.separated(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder:
+                                          (context, index) => GestureDetector(
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              JobDetailsAndApply(
+                                                                index2: index,
+                                                              )));
+                                                },
+                                                child: Consumer<
+                                                    GetCreatedVacancyProvider>(
+                                                  builder:
+                                                      (context, value, child) =>
+                                                          SizedBox(
+                                                    height: 130,
+                                                    // width: 340,
+                                                    child: Card(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          // kWidth(10),
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            child:
+                                                                Image.network(
+                                                              "https://pbs.twimg.com/profile_images/1493919551553167360/XIoPFoOK_400x400.jpg",
+                                                              height: 90,
                                                             ),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          value
-                                                              .createdVacancy![
-                                                                  index]
-                                                              .company!
-                                                              .companyName,
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                            "${value.createdVacancies![index].locationType} ",
-                                                            style: const TextStyle(
+                                                          // kWidth(10),
+                                                          SizedBox(
+                                                            width: 200,
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width: double
+                                                                            .infinity,
+                                                                        child:
+                                                                            Text(
+                                                                          value
+                                                                              .createdVacancy![index]
+                                                                              .position,
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                          style: const TextStyle(
+                                                                              fontSize: 18,
+                                                                              fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      value
+                                                                          .createdVacancy![
+                                                                              index]
+                                                                          .company!
+                                                                          .companyName,
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                        "${value.createdVacancies![index].locationType} ",
+                                                                        style: const TextStyle(
+                                                                            color:
+                                                                                kMainColor)),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          IconButton(
+                                                              onPressed: () {},
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .bookmark_border_outlined,
                                                                 color:
-                                                                    kMainColor)),
-                                                      ],
+                                                                    kMainColor,
+                                                              ))
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              IconButton(
-                                                  onPressed: () {},
-                                                  icon: const Icon(
-                                                    Icons
-                                                        .bookmark_border_outlined,
-                                                    color: kMainColor,
-                                                  ))
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                              separatorBuilder: (context, index) => kHeight(5),
-                              itemCount: value.createdVacancy!.length)
-                ],
-              )
-            ],
-          ),
+                                      separatorBuilder: (context, index) =>
+                                          kHeight(5),
+                                      itemCount: value.createdVacancy!.length)
+                        ],
+                      )
+                    ],
+                  );
+          },
         ),
       ),
     );

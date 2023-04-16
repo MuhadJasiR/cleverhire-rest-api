@@ -185,14 +185,9 @@ class ResumeUpload extends StatelessWidget {
                           provider.applyingForVacancy(
                               context, value2.createdVacancies![index4].id);
                           log("Checking the id is changing or not ${value2.createdVacancies![index4].id}");
-                          provider.isLoading
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          BottomNavigation()));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => BottomNavigation()));
                           toast("Success");
                         } else {
                           showSimpleNotification(

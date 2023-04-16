@@ -37,90 +37,130 @@ class RecruiterHomeScreen extends StatelessWidget {
       body: Consumer2<GetCreatedVacancyProvider, GetAppliedPeoplesProvider>(
         builder: (context, value, value2, child) => Padding(
           padding: const EdgeInsets.all(10.0),
-          child: ListView(
-            children: [
-              kHeight(10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "My Vacancies",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                  TextButton(onPressed: () {}, child: const Text("See all"))
-                ],
-              ),
-              value.isLoading
-                  ? const ShimmerRecruiterPage()
-                  : value.createdVacancies == null
-                      ? const SizedBox()
-                      : CarouselSlider.builder(
-                          carouselController: CarouselController(),
-                          itemBuilder: ((context, index, realIndex) =>
-                              JobVacanciesCard(
-                                index1: index,
-                              )),
-                          itemCount: provider.createdVacancies!.length,
-                          options: CarouselOptions(
-                            enableInfiniteScroll: false,
-                            autoPlay: false,
-                            enlargeCenterPage: true,
-                            aspectRatio: 2.7,
-                            viewportFraction: 0.83,
-                            enlargeFactor: 0.25,
-                            onPageChanged: (index, reason) {
-                              value.indexId = index;
-
-                              // ignore: invalid_use_of_protected_member
-                              value.notifyListeners();
-                              value2.fetchingAppliedPeople(
-                                  value.createdVacancies![value.indexId!].id);
-                              log("::::::::::${value.indexId.toString()}");
-                            },
+          child: value.createdVacancies == null
+              ? SizedBox()
+              : value.createdVacancies!.isEmpty
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            "assets/recruiter-hiring.gif",
+                            height: 200,
                           ),
                         ),
-              kHeight(20),
-              Row(
-                children: const [
-                  Text(
-                    "Recently applied people",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              kHeight(10),
-              value2.isLoading
-                  ? ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 3,
-                      separatorBuilder: (context, index) => kHeight(10),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => const ShimmerLoading())
-                  : value2.appliedPeoples == null ||
-                          value2.appliedPeoples!.isEmpty
-                      ? Column(
-                          children: [
-                            kHeight(40),
-                            Image.asset(
-                              "assets/output-onlinegiftools.gif",
-                              height: 200,
-                            ),
-                            const Text(
-                              "No one applied for this vacancy...",
-                              style: TextStyle(color: kMainColor),
-                            )
+                        kHeight(10),
+                        const Text(
+                          "Creating a job vacancy and hiring people can be a life-changing experience that provides an opportunity for individuals to improve their lives and contribute to society.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                        kHeight(10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text("Create vacancy"),
+                            Icon(Icons.arrow_right_alt_rounded),
                           ],
                         )
-                      : ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: value2.appliedPeoples!.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => AppliedPeopleCard(
-                            index: index,
-                          ),
+                      ],
+                    )
+                  : ListView(
+                      children: [
+                        kHeight(10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "My Vacancies",
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            ),
+                            TextButton(
+                                onPressed: () {}, child: const Text("See all"))
+                          ],
                         ),
-            ],
-          ),
+                        value.isLoading
+                            ? const ShimmerRecruiterPage()
+                            : value.createdVacancies == null
+                                ? const Text("create a vacancy")
+                                : CarouselSlider.builder(
+                                    carouselController: CarouselController(),
+                                    itemBuilder: ((context, index, realIndex) =>
+                                        JobVacanciesCard(
+                                          index1: index,
+                                        )),
+                                    itemCount:
+                                        provider.createdVacancies!.length,
+                                    options: CarouselOptions(
+                                      enableInfiniteScroll: false,
+                                      autoPlay: false,
+                                      enlargeCenterPage: true,
+                                      aspectRatio: 2.7,
+                                      viewportFraction: 0.83,
+                                      enlargeFactor: 0.25,
+                                      onPageChanged: (index, reason) {
+                                        value.indexId = index;
+
+                                        // ignore: invalid_use_of_protected_member
+                                        value.notifyListeners();
+                                        value2.fetchingAppliedPeople(value
+                                            .createdVacancies![value.indexId!]
+                                            .id);
+                                        log("::::::::::${value.indexId.toString()}");
+                                      },
+                                    ),
+                                  ),
+                        kHeight(20),
+                        Row(
+                          children: const [
+                            Text(
+                              "Recently applied people",
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        kHeight(10),
+                        value2.isLoading
+                            ? ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 3,
+                                separatorBuilder: (context, index) =>
+                                    kHeight(10),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) =>
+                                    const ShimmerLoading())
+                            : value2.appliedPeoples!.isEmpty
+                                ? Column(
+                                    children: [
+                                      kHeight(40),
+                                      Image.asset(
+                                        "assets/asdfghj.gif",
+                                        height: 200,
+                                      ),
+                                      const Text(
+                                        "No one applied for this vacancy...",
+                                        style: TextStyle(color: kMainColor),
+                                      )
+                                    ],
+                                  )
+                                : value2.appliedPeoples == null
+                                    ? const SizedBox()
+                                    : ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount:
+                                            value2.appliedPeoples!.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) =>
+                                            AppliedPeopleCard(
+                                          index: index,
+                                        ),
+                                      ),
+                      ],
+                    ),
         ),
       ),
     );

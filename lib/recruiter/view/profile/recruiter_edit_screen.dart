@@ -1,6 +1,5 @@
-import 'package:cleverhire/authentication/view/sign_in_screen.dart';
+import 'package:cleverhire/recruiter/view/profile/settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../core/color/color.dart';
 
@@ -12,7 +11,6 @@ import '../../../core/constraints/constraints.dart';
 
 class RecruiterProfileEditingScreen extends StatelessWidget {
   const RecruiterProfileEditingScreen({super.key});
-  final FlutterSecureStorage storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,38 +21,10 @@ class RecruiterProfileEditingScreen extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: const Text(
-                        "Alert!",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      content: const Text("Are to sure to sign out"),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text("No")),
-                        TextButton(
-                            onPressed: () {
-                              storage.delete(key: "access_token");
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignInScreen()),
-                                  (route) => false);
-                            },
-                            child: const Text(
-                              "Yes",
-                              style: TextStyle(color: Colors.red),
-                            ))
-                      ],
-                    ),
-                  );
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()));
                 },
-                icon: const Icon(Icons.exit_to_app))
+                icon: const Icon(Icons.settings))
           ],
         ),
         body: SingleChildScrollView(
@@ -83,10 +53,11 @@ class RecruiterProfileEditingScreen extends StatelessWidget {
                               icon: const Icon(Icons.edit_square)))
                     ],
                   ),
-                  kHeight(15),
-                  const Text("Upload Company Logo"),
-                  kHeight(10),
+                  // kHeight(15),
+                  // // const Text("Upload Company Logo"),
+                  kHeight(40),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text("Name of Company"),
@@ -96,14 +67,14 @@ class RecruiterProfileEditingScreen extends StatelessWidget {
                         controller: value.companyNameController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30)),
+                                borderRadius: BorderRadius.circular(10)),
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: kMainColor),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             isDense: true),
                         validator: (value) {
@@ -122,14 +93,14 @@ class RecruiterProfileEditingScreen extends StatelessWidget {
                         controller: value.emailController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30)),
+                                borderRadius: BorderRadius.circular(10)),
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: kMainColor),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             isDense: true),
                       ),
@@ -150,14 +121,14 @@ class RecruiterProfileEditingScreen extends StatelessWidget {
                               color: kTextFieldColor,
                             ),
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30)),
+                                borderRadius: BorderRadius.circular(10)),
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: kMainColor),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             isDense: true),
                       ),
@@ -168,14 +139,14 @@ class RecruiterProfileEditingScreen extends StatelessWidget {
                         controller: value.countryController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30)),
+                                borderRadius: BorderRadius.circular(10)),
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: kMainColor),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             isDense: true),
                         validator: (value) {
@@ -194,14 +165,14 @@ class RecruiterProfileEditingScreen extends StatelessWidget {
                           controller: value.addressController,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30)),
+                                  borderRadius: BorderRadius.circular(10)),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: kMainColor),
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: Colors.red),
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               isDense: true),
                           validator: (value) {
@@ -214,20 +185,20 @@ class RecruiterProfileEditingScreen extends StatelessWidget {
                       kHeight(10),
                     ],
                   ),
-                  SizedBox(
-                    width: 200,
-                    height: 40,
-                    child: ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: kMainColor),
-                      onPressed: () {},
-                      child: const Text(
-                        "Confirm",
-                        style: TextStyle(fontSize: 17, color: kWhiteColor),
-                      ),
-                    ),
-                  ),
-                  kHeight(20)
+                  // SizedBox(
+                  //   width: 200,
+                  //   height: 40,
+                  //   child: ElevatedButton(
+                  //     style:
+                  //         ElevatedButton.styleFrom(backgroundColor: kMainColor),
+                  //     onPressed: () {},
+                  //     child: const Text(
+                  //       "Confirm",
+                  //       style: TextStyle(fontSize: 17, color: kWhiteColor),
+                  //     ),
+                  //   ),
+                  // ),
+                  // kHeight(20)
                 ],
               ),
             ),

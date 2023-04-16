@@ -34,7 +34,7 @@ class AppliedJobs extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            "assets/output-onlinegiftools.gif",
+                            "assets/asdfghj.gif",
                             height: 200,
                           ),
                           const Text(

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 class SeekerLoginProvider with ChangeNotifier {
   TextEditingController addressController = TextEditingController();
   TextEditingController occupationController = TextEditingController();
+  TextEditingController userName = TextEditingController();
   String? selectedDate;
   bool isLoading = false;
   Future seekerLogin(BuildContext context) async {

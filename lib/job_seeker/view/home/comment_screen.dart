@@ -62,33 +62,41 @@ class CommentScreen extends StatelessWidget {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : ListView.separated(
-                  separatorBuilder: (context, index) => const Divider(
-                    thickness: 0.3,
-                  ),
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                          radius: 25,
-                          backgroundImage: value
-                                  .uploadedPost![index1]
-                                  .comments[index]
-                                  .user
-                                  .profile
-                                  .profileImage
-                                  .isNotEmpty
-                              ? NetworkImage(value.uploadedPost![index1]
-                                  .comments[index].user.profile.profileImage)
-                              : const AssetImage("assets/profile.png")
-                                  as ImageProvider<Object>),
-                      title: Text(value
-                          .uploadedPost![index1].comments[index].user.username),
-                      subtitle: Text(
-                          value.uploadedPost![index1].comments[index].comment),
-                    );
-                  },
-                  itemCount: value.uploadedPost![index1].comments.length,
-                ),
+              : value.uploadedPost![index1].comments.isEmpty
+                  ? const Center(
+                      child: Text("There is no comments.."),
+                    )
+                  : ListView.separated(
+                      separatorBuilder: (context, index) => const Divider(
+                        thickness: 0.3,
+                      ),
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: CircleAvatar(
+                              radius: 25,
+                              backgroundImage: value
+                                      .uploadedPost![index1]
+                                      .comments[index]
+                                      .user
+                                      .profile
+                                      .profileImage
+                                      .isNotEmpty
+                                  ? NetworkImage(value
+                                      .uploadedPost![index1]
+                                      .comments[index]
+                                      .user
+                                      .profile
+                                      .profileImage)
+                                  : const AssetImage("assets/profile.png")
+                                      as ImageProvider<Object>),
+                          title: Text(value.uploadedPost![index1]
+                              .comments[index].user.username),
+                          subtitle: Text(value
+                              .uploadedPost![index1].comments[index].comment),
+                        );
+                      },
+                      itemCount: value.uploadedPost![index1].comments.length,
+                    ),
         ));
   }
 }

@@ -26,6 +26,8 @@ class ApplyingForVacancyProvider with ChangeNotifier {
       log("This is your resume : ${provider.downloadUrl}");
       ApplyingForVacancy()
           .applyingForVacancyServices(applyingVacancyModel, jobId);
+      isLoading = false;
+      notifyListeners();
     } else {
       log("Error: downloadUrl is null");
     }

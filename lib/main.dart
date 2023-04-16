@@ -23,6 +23,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'authentication/controller/provider/otp_verification.dart';
 import 'authentication/controller/provider/sign_up_provider.dart';
+import 'job_seeker/controller/provider/chat_provider.dart';
 import 'job_seeker/controller/provider/get_seeker_details_provider.dart';
 
 Future main() async {
@@ -56,7 +57,9 @@ class MyApp extends StatelessWidget {
         ListenableProvider(create: ((context) => UploadImageProvider())),
         ListenableProvider(create: ((context) => GetUploadedPostProvider())),
         ListenableProvider(create: ((context) => GetSeekerDetailsProvider())),
-        ListenableProvider(create: ((context) => UpdateSeekerDetailsProvider()))
+        ListenableProvider(
+            create: ((context) => UpdateSeekerDetailsProvider())),
+        ListenableProvider(create: ((context) => ChatProvider()))
       ],
       child: OverlaySupport.global(
         child: MaterialApp(
