@@ -1,8 +1,9 @@
 import 'dart:developer';
 
-import 'package:cleverhire/recruiter/controller/api_services/get_created_vacancy.dart';
 import 'package:cleverhire/recruiter/model/create_vacancy_model/create_vacancy_res_model.dart';
 import 'package:flutter/foundation.dart';
+
+import '../api_services/get_created_vacancy.dart';
 
 class GetCreatedVacancyProvider with ChangeNotifier {
   List<CreateVacancyResModel>? createdVacancies;

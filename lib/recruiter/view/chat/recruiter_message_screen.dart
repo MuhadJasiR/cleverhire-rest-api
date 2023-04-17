@@ -1,8 +1,9 @@
 import 'dart:developer';
 
-import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
-import 'package:cleverhire/job_seeker/controller/provider/chat_provider.dart';
+
+import 'package:cleverhire/job_seeker/model/get_chat_model.dart';
+import 'package:cleverhire/recruiter/controller/provider/get_applied_people_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -10,18 +11,18 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../core/api/api_config.dart';
-import '../../../job_seeker/model/chat_model.dart';
 
 class RecruiterMessageScreen extends StatefulWidget {
-  const RecruiterMessageScreen({super.key, required this.usersId});
+  const RecruiterMessageScreen({super.key, required this.chatId});
 
-  final String usersId;
+  final String chatId;
 
   @override
   State<RecruiterMessageScreen> createState() => _RecruiterMessageScreenState();
 }
 
 IO.Socket? socket;
+TextEditingController messageController = TextEditingController();
 
 class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
   final List<Message> message = [
@@ -42,12 +43,42 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
         date: DateTime.now().subtract(const Duration(minutes: 1)),
         isSentByMe: true),
   ];
+
+  void initSocket() {
+    String baseUrl = ApiConfig.baseUrl;
+
+    Map<String, dynamic> data = {
+      "receiverId": "642cf3592eaa2a181bc2d0c1",
+      "message": "hello",
+    };
+
+    socket = IO.io(baseUrl, <String, dynamic>{
+      'autoConnect': false,
+      'transports': ['websocket'],
+    });
+
+    socket!.onConnect((_) {
+      log("connection established...");
+
+      socket!.on("receive-message", (data) {
+        log("received");
+        log(data.toString());
+        setState(() {
+          GetChatModel model = GetChatModel(message: data);
+        });
+      });
+    });
+
+    socket!.onDisconnect((_) => log("connection disconnected"));
+    socket?.onConnectError((err) => log(err.toString()));
+    socket?.onError((err) => log(err.toString()));
+
+    socket!.connect();
+  }
+
   @override
   void initState() {
-    // Provider.of<ChatProvider>(context, listen: false)
-    //     .connect("642519e0643d6f0ca5803823");
-    // connect("64251a42643d6f0ca5803829");
-    connect();
+    initSocket();
     super.initState();
   }
 
@@ -127,25 +158,32 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: TextField(
+                controller: messageController,
                 decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.send,
-                          color: Colors.green[500],
-                        )),
+                    suffixIcon: Consumer<GetAppliedPeoplesProvider>(
+                      builder: (context, value, child) => IconButton(
+                          onPressed: () {
+                            String sendMessage = messageController.text.trim();
+                            final messages = Message(
+                                text: messageController.text.trim(),
+                                date: DateTime.now(),
+                                isSentByMe: true);
+                            sentMessage(value.appliedPeoples![0].appliedBy.id,
+                                sendMessage);
+                            setState(() {
+                              message.add(messages);
+                            });
+                          },
+                          icon: Icon(
+                            Icons.send,
+                            color: Colors.green[500],
+                          )),
+                    ),
                     border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     contentPadding: const EdgeInsets.all(12),
                     hintText: "Type something here"),
-                onSubmitted: (value) {
-                  final messages = Message(
-                      text: value, date: DateTime.now(), isSentByMe: true);
-
-                  setState(() {
-                    message.add(messages);
-                  });
-                },
+                onSubmitted: (value) {},
               ),
             )
           ],
@@ -159,43 +197,19 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
     socket!.dispose();
     super.dispose();
   }
-
-  // void connect(String userId) {
-  //   List<ChatModel>? chatModelList;
-  //   String baseUrl = ApiConfig.baseUrl;
-
-  //   log(baseUrl);
-  //   socket = IO.io(baseUrl, <String, dynamic>{
-  //     "transports": ["websocket"],
-  //     "autoConnect": false,
-  //   });
-  //   socket!.connect();
-  //   // setState(() {
-  //   socket!.onConnect((data) {
-  //     log("connected...$data");
-  //     // });
-  //   });
-  //   socket!.onConnectError(
-  //       (data) => log(data.toString(), name: 'onConnectionError'));
-  //   socket!.onError((data) {
-  //     log(data.toString(), name: "onError");
-  //   });
-  // }
 }
 
-void connect() {
-  String baseUrl = ApiConfig.baseUrl;
-  socket = IO.io(baseUrl, <String, dynamic>{
-    "transports": ["websocket"],
-    "autoConnect": false,
-  });
-  socket!.connect();
-  log("connected");
-  socket!.emit("send-message", "642519e0643d6f0ca5803823");
+sentMessage(String sentId, String message) {
+  if (message.isEmpty) return;
+  Map messageMap = {"receiverId": sentId, "message": message};
+  socket!.emit("send-message", messageMap);
+  messageController.clear();
+}
+
+getMessage() {
   socket!.on("receive-message", (data) {
     log("Emitted");
-    SentChatModel model =
-        SentChatModel(message: data, receiverId: "642519e0643d6f0ca5803823");
+    GetChatModel model = GetChatModel(message: data);
   });
 }
 

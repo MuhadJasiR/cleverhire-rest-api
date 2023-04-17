@@ -1,8 +1,9 @@
 import 'dart:developer';
 
-import 'package:cleverhire/recruiter/controller/api_services/get_applied_people_services.dart';
 import 'package:cleverhire/recruiter/model/get_applied_people_model.dart';
 import 'package:flutter/foundation.dart';
+
+import '../api_services/get_applied_people_services.dart';
 
 class GetAppliedPeoplesProvider with ChangeNotifier {
   List<GetAppliedPeopleModel>? appliedPeoples;

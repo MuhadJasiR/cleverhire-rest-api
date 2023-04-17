@@ -1,7 +1,9 @@
 import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/job_seeker/controller/provider/get_applied_jobs_provider.dart';
+import 'package:cleverhire/job_seeker/view/applied_jobs/chat_screen.dart';
 import 'package:cleverhire/job_seeker/view/applied_jobs/view_applied_jobs_details.dart';
+import 'package:cleverhire/recruiter/controller/api_services/getServices/get_all_chat_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +12,7 @@ class AppliedJobs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GetAllChatApiServices().fetchAllChatServices();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<GetAppliedJobsProvider>(context, listen: false)
           .fetchingAppliedJobs();
@@ -20,6 +23,17 @@ class AppliedJobs extends StatelessWidget {
         title: const Text("Applied Jobs"),
         centerTitle: true,
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ChatScreenSeeker()));
+              },
+              icon: Icon(
+                Icons.mark_chat_unread,
+                color: kMainColor.withOpacity(0.8),
+              ))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),

@@ -8,8 +8,10 @@ import 'package:cleverhire/job_seeker/controller/provider/update_seeker_details_
 import 'package:cleverhire/job_seeker/controller/provider/upload_image_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/company_login_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/create_vacancy_provider.dart';
+import 'package:cleverhire/recruiter/controller/provider/get_all_chats_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/get_applied_people_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/get_created_vacancy_provider.dart';
+import 'package:cleverhire/recruiter/controller/provider/send_message_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/update_vacancy_provider.dart';
 import 'package:cleverhire/theme/theme.dart';
 import 'package:cleverhire/job_seeker/controller/provider/local_functions_provider.dart';
@@ -59,7 +61,11 @@ class MyApp extends StatelessWidget {
         ListenableProvider(create: ((context) => GetSeekerDetailsProvider())),
         ListenableProvider(
             create: ((context) => UpdateSeekerDetailsProvider())),
-        ListenableProvider(create: ((context) => ChatProvider()))
+        ListenableProvider(create: ((context) => ChatProvider())),
+        ListenableProvider(create: ((context) => GetAllChatsProvider())),
+        ListenableProvider(
+          create: ((context) => SendMessageProvider()),
+        )
       ],
       child: OverlaySupport.global(
         child: MaterialApp(

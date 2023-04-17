@@ -1,10 +1,11 @@
 import 'dart:developer';
 
-import 'package:cleverhire/recruiter/controller/api_services/company_login_services.dart';
 import 'package:cleverhire/recruiter/model/company_login_req_model/company_req_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../api_services/company_login_services.dart';
 
 class CompanyLoginProvider with ChangeNotifier {
   TextEditingController companyNameController = TextEditingController();

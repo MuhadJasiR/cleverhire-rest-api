@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:cleverhire/core/api/api_config.dart';
-import 'package:cleverhire/job_seeker/model/chat_model.dart';
+import 'package:cleverhire/job_seeker/model/send_chat_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter/material.dart';
 
 class ChatProvider with ChangeNotifier {
   IO.Socket? socket;
-  List<SentChatModel>? chatModelList;
+  List<SendChatModel>? chatModelList;
   String baseUrl = "${ApiConfig.baseUrl}/socket";
   void connect(String userId) {
     socket = IO.io(baseUrl, <String, dynamic>{
@@ -28,8 +28,8 @@ class ChatProvider with ChangeNotifier {
   void sendMessage(String message, String senderId) {
     socket!.emit("send-message", {"receiverId": senderId, "message": message});
     socket!.on("receive-message", (data) {
-      SentChatModel sentChatModel =
-          SentChatModel(message: data, receiverId: senderId);
+      SendChatModel sentChatModel =
+          SendChatModel(message: data, receiverId: senderId);
       chatModelList!.add(sentChatModel);
     });
   }

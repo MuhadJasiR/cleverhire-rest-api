@@ -1,6 +1,7 @@
-import 'package:cleverhire/recruiter/controller/api_services/create_vacancy_services.dart';
 import 'package:cleverhire/recruiter/model/create_vacancy_model/create_vacancy_model.dart';
 import 'package:flutter/material.dart';
+
+import '../api_services/create_vacancy_services.dart';
 
 class CreateVacancyProvider with ChangeNotifier {
   TextEditingController openPositionController = TextEditingController();
