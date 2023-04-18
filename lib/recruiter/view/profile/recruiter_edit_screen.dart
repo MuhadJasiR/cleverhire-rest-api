@@ -1,4 +1,4 @@
-import 'package:cleverhire/recruiter/view/profile/settings_screen.dart';
+import 'package:cleverhire/recruiter/view/profile/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/color/color.dart';

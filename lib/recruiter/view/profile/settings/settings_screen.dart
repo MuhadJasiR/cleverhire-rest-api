@@ -4,7 +4,7 @@ import 'package:cleverhire/core/color/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../authentication/view/sign_in_screen.dart';
+import '../../../../authentication/view/sign_in_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

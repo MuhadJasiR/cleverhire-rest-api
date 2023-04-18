@@ -14,7 +14,7 @@ class RecruiterBottomNavigation extends StatelessWidget {
   final screens = [
     const RecruiterHomeScreen(),
     const RecruiterApplicationScreen(),
-    const RecruiterChatScreen(),
+    RecruiterChatScreen(),
     const RecruiterProfileEditingScreen(),
   ];
   @override

@@ -1,5 +1,5 @@
 import 'package:cleverhire/job_seeker/controller/provider/get_seeker_details_provider.dart';
-import 'package:cleverhire/recruiter/view/profile/settings_screen.dart';
+import 'package:cleverhire/recruiter/view/profile/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';

@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
         ListenableProvider(create: ((context) => GetAllChatsProvider())),
         ListenableProvider(
           create: ((context) => SendMessageProvider()),
-        )
+        ),
       ],
       child: OverlaySupport.global(
         child: MaterialApp(

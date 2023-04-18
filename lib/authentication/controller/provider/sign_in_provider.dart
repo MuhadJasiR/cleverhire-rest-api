@@ -30,6 +30,9 @@ class SignInProvider with ChangeNotifier {
         storage.write(key: "role", value: jsonEncode(value.user.role));
         log(value.user.role.toString());
 
+        storage.write(key: "_id", value: value.user.id);
+        log(value.user.id, name: "receiver Id");
+
         final roleChecking = await storage.read(key: "role");
         log(roleChecking.toString());
 

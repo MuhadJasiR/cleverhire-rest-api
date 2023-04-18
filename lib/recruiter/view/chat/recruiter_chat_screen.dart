@@ -1,19 +1,27 @@
+import 'dart:developer';
+
 import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/recruiter/controller/provider/get_all_chats_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import 'recruiter_message_screen.dart';
 
 class RecruiterChatScreen extends StatelessWidget {
-  const RecruiterChatScreen({super.key});
+  RecruiterChatScreen({super.key});
+
+  String? newRole;
 
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
+      (_) async {
+        FlutterSecureStorage storage = const FlutterSecureStorage();
+        final role = await storage.read(key: "role");
+        newRole = role!.replaceAll('"', '');
         Provider.of<GetAllChatsProvider>(context, listen: false)
             .fetchingAllChats();
       },
@@ -41,12 +49,22 @@ class RecruiterChatScreen extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) => GestureDetector(
-                                onTap: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RecruiterMessageScreen(
+                                onTap: () {
+                                  Provider.of<GetAllChatsProvider>(context,
+                                          listen: false)
+                                      .fetchPersonalChatProvider(value.chatId!);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          RecruiterMessageScreen(
                                               chatId: value.chatId!,
-                                            ))),
+                                              role: newRole!,
+                                              index1: index,
+                                              receiverId: newRole == "seeker"
+                                                  ? value
+                                                      .recruiterChats[index].id
+                                                  : value.filteredChats[index]
+                                                      .id)));
+                                },
                                 child: Card(
                                   child: ListTile(
                                     leading: CircleAvatar(
@@ -55,8 +73,9 @@ class RecruiterChatScreen extends StatelessWidget {
                                         "assets/profile.png",
                                       ),
                                     ),
-                                    title: Text(
-                                        value.filteredChats[index].username),
+                                    title: Text(newRole == "seeker"
+                                        ? value.recruiterChats[index].username
+                                        : value.filteredChats[index].username),
                                     subtitle: const Text("FLutter developer"),
                                     trailing: Column(
                                       mainAxisAlignment:
@@ -84,7 +103,9 @@ class RecruiterChatScreen extends StatelessWidget {
                           separatorBuilder: (context, index) => const Divider(
                                 thickness: 0.3,
                               ),
-                          itemCount: value.filteredChats.length);
+                          itemCount: newRole == "seeker"
+                              ? value.recruiterChats.length
+                              : value.filteredChats.length);
                 })
               ],
             )
