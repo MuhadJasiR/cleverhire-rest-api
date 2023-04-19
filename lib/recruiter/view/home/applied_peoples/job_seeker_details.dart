@@ -4,10 +4,13 @@ import 'dart:developer';
 
 import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/recruiter/controller/api_services/job_status_changing_services.dart';
+import 'package:cleverhire/recruiter/controller/provider/get_all_chats_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/get_applied_people_provider.dart';
+import 'package:cleverhire/recruiter/view/chat/recruiter_message_screen.dart';
 import 'package:cleverhire/recruiter/view/home/applied_peoples/see_applied_peoples_resume.dart';
 import 'package:cleverhire/recruiter/view/home/widget/seeker_details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 const List<String> seekerStatus = [
@@ -21,9 +24,15 @@ class JobSeekerDetails extends StatelessWidget {
   JobSeekerDetails({super.key, required this.index});
 
   int index;
+  String? newRole;
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      FlutterSecureStorage storage = const FlutterSecureStorage();
+      final role = await storage.read(key: "role");
+      newRole = role!.replaceAll('"', '');
+    });
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -33,8 +42,8 @@ class JobSeekerDetails extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        child: Consumer<GetAppliedPeoplesProvider>(
-          builder: (context, value, child) => Card(
+        child: Consumer2<GetAppliedPeoplesProvider, GetAllChatsProvider>(
+          builder: (context, value, value2, child) => Card(
             child: SizedBox(
               height: height / 1.3,
               child: Column(
@@ -62,7 +71,16 @@ class JobSeekerDetails extends StatelessWidget {
                     ),
                     subtitle: const Text("Flutter developer"),
                     trailing: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => RecruiterMessageScreen(
+                                  chatId: value2.chatId!,
+                                  role: newRole!,
+                                  index1: index,
+                                  receiverId: newRole == "seeker"
+                                      ? value2.recruiterChats[index].id
+                                      : value2.filteredChats[index].id)));
+                        },
                         icon: Icon(
                           Icons.chat,
                           color: kTextFieldColor,

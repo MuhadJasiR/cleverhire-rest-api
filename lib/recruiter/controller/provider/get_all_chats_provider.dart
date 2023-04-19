@@ -60,4 +60,11 @@ class GetAllChatsProvider with ChangeNotifier {
     notifyListeners();
     log(chatMessage.toString(), name: 'chat message');
   }
+
+  void updateMessage(String message) {
+    ChatResModel chatResModel =
+        ChatResModel(message: message, createdAt: DateTime.now());
+    chatMessage!.add(chatResModel);
+    notifyListeners();
+  }
 }

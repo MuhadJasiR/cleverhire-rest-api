@@ -38,7 +38,7 @@ class RecruiterHomeScreen extends StatelessWidget {
         builder: (context, value, value2, child) => Padding(
           padding: const EdgeInsets.all(10.0),
           child: value.createdVacancies == null
-              ? SizedBox()
+              ? const SizedBox()
               : value.createdVacancies!.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,

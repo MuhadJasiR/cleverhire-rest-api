@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/job_seeker/model/chat_res_model.dart';
 
-import 'package:cleverhire/job_seeker/model/get_chat_model.dart';
 import 'package:cleverhire/recruiter/controller/provider/get_all_chats_provider.dart';
 import 'package:cleverhire/recruiter/controller/provider/get_applied_people_provider.dart';
 
@@ -12,10 +11,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+// ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../core/api/api_config.dart';
+import '../../controller/provider/send_message_provider.dart';
 
+// ignore: must_be_immutable
 class RecruiterMessageScreen extends StatefulWidget {
   RecruiterMessageScreen(
       {super.key,
@@ -34,57 +36,56 @@ class RecruiterMessageScreen extends StatefulWidget {
   State<RecruiterMessageScreen> createState() => _RecruiterMessageScreenState();
 }
 
-IO.Socket? socket;
+late IO.Socket socket;
 TextEditingController messageController = TextEditingController();
 
 class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
   void initSocket() {
     String baseUrl = ApiConfig.baseUrl;
 
-    Map<String, dynamic> data = {
-      "receiverId": "642cf3592eaa2a181bc2d0c1",
-      "message": "hello",
-    };
-
     socket = IO.io(baseUrl, <String, dynamic>{
       'autoConnect': false,
       'transports': ['websocket'],
     });
+    socket.connect();
+    socket.onConnect((data1) {
+      log("connection established...${socket.connected}");
+      socket.emit("new-user-add", (widget.receiverId));
+      setState(() {
+        socket.on(
+            "get-users", (data) => log(data.toString(), name: "get User"));
+        socket.on("receive-message", (data) {
+          log("received");
+          log(data.toString(), name: 'Data');
 
-    socket!.onConnect((_) {
-      log("connection established...");
-
-      socket!.on("receive-message", (data) {
-        log("received");
-        log(data.toString());
-        setState(() {
-          GetChatModel model = GetChatModel(message: data);
+          Provider.of<GetAllChatsProvider>(context, listen: false)
+              .updateMessage(data["message"]);
         });
+        log('received..message', name: 'received');
       });
     });
-    socket!.onDisconnect((_) => log("connection disconnected"));
-    socket?.onConnectError((err) => log(err.toString()));
-    socket?.onError((err) => log(err.toString()));
-
-    socket!.connect();
+    socket.onDisconnect((_) => log("connection disconnected"));
+    socket.onConnectError((err) => log(err.toString()));
+    socket.onError((err) => log(err.toString()));
   }
 
   String? receiverId;
+  String? newRole;
 
   @override
   Widget build(BuildContext context) {
-    print('::::::::::::::::::::${widget.receiverId}');
+    final formkey = GlobalKey<FormState>();
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) async {
+        initSocket();
         FlutterSecureStorage storage = const FlutterSecureStorage();
         receiverId = await storage.read(key: "_id");
-        initSocket();
 
+        // ignore: use_build_context_synchronously
         await Provider.of<GetAllChatsProvider>(context, listen: false)
             .fetchPersonalChatProvider(widget.chatId);
       },
     );
-    log('dfolkwjedlfikjsldfjsldkfjl;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;${receiverId}');
     return Scaffold(
       appBar: AppBar(
         title: Consumer<GetAllChatsProvider>(
@@ -97,18 +98,10 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
                 ),
               ),
               kWidth(10),
-              Column(
-                children: [
-                  Text(
-                    widget.role == "seeker"
-                        ? value.recruiterChats[widget.index1].username
-                        : value.filteredChats[widget.index1].username,
-                  ),
-                  const Text(
-                    "Online",
-                    style: TextStyle(fontSize: 10),
-                  ),
-                ],
+              Text(
+                widget.role == "seeker"
+                    ? value.recruiterChats[widget.index1].username
+                    : value.filteredChats[widget.index1].username,
               ),
             ],
           ),
@@ -119,7 +112,7 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
         child: Consumer<GetAllChatsProvider>(
           builder: (context, value, child) {
             return value.chatMessage == null
-                ? SizedBox()
+                ? const SizedBox()
                 : value.isLoading
                     ? const Center(
                         child: CircularProgressIndicator(),
@@ -129,8 +122,8 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
                           Expanded(
                               child: GroupedListView<ChatResModel, DateTime>(
                             elements: value.chatMessage!,
-                            reverse: true,
-                            order: GroupedListOrder.DESC,
+                            // reverse: true,
+                            // order: GroupedListOrder.DESC,
                             floatingHeader: true,
                             groupBy: (ChatResModel message) => DateTime(
                               message.createdAt.year,
@@ -181,38 +174,63 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
                               ),
                             ),
                           )),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: TextField(
-                              controller: messageController,
-                              decoration: InputDecoration(
-                                  suffixIcon:
-                                      Consumer<GetAppliedPeoplesProvider>(
-                                    builder: (context, value, child) =>
-                                        IconButton(
-                                            onPressed: () {
-                                              String sendMessage =
-                                                  messageController.text.trim();
+                          Form(
+                            key: formkey,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: TextFormField(
+                                controller: Provider.of<SendMessageProvider>(
+                                        context,
+                                        listen: false)
+                                    .messageController,
+                                decoration: InputDecoration(
+                                    suffixIcon:
+                                        Consumer<GetAppliedPeoplesProvider>(
+                                      builder: (context, value, child) =>
+                                          IconButton(
+                                              onPressed: () {
+                                                // setState(() {
+                                                if (formkey.currentState!
+                                                    .validate()) {
+                                                  Provider.of<SendMessageProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .sentMessage(
+                                                          widget.receiverId);
 
-                                              sentMessage(
-                                                  value.appliedPeoples![0]
-                                                      .appliedBy.id,
-                                                  sendMessage);
-                                              setState(() {
-                                                // message.add(messages);
-                                              });
-                                            },
-                                            icon: Icon(
-                                              Icons.send,
-                                              color: Colors.green[500],
-                                            )),
-                                  ),
-                                  border: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30))),
-                                  contentPadding: const EdgeInsets.all(12),
-                                  hintText: "Type something here"),
-                              onSubmitted: (value) {},
+                                                  sendMessageSocket(Provider.of<
+                                                              SendMessageProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .messageController
+                                                      .text
+                                                      .trim());
+                                                  Provider.of<SendMessageProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .messageController
+                                                      .clear();
+                                                }
+                                                FocusScope.of(context)
+                                                    .unfocus();
+                                                // });
+                                              },
+                                              icon: Icon(
+                                                Icons.send,
+                                                color: Colors.green[500],
+                                              )),
+                                    ),
+                                    border: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
+                                    contentPadding: const EdgeInsets.all(12),
+                                    hintText: "Type something here"),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "please enter something";
+                                  }
+                                },
+                              ),
                             ),
                           )
                         ],
@@ -223,23 +241,21 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
     );
   }
 
+  void sendMessageSocket(String message) {
+    log('message sending...');
+    socket.emit(
+        "send-message", {"receiverId": widget.receiverId, "message": message});
+    socket.on("receive-message", (data) {
+      log(data.toString());
+      log(data.toString(), name: 'Data');
+      // GetChatModel model = GetChatModel(message: data);
+    });
+    log('message sent');
+  }
+
   @override
   void dispose() {
-    socket!.dispose();
+    socket.dispose();
     super.dispose();
   }
-}
-
-sentMessage(String sentId, String message) {
-  if (message.isEmpty) return;
-  Map messageMap = {"receiverId": sentId, "message": message};
-  socket!.emit("send-message", messageMap);
-  messageController.clear();
-}
-
-getMessage() {
-  socket!.on("receive-message", (data) {
-    log("Emitted");
-    GetChatModel model = GetChatModel(message: data);
-  });
 }
