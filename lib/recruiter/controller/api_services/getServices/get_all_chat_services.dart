@@ -8,7 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class GetAllChatApiServices {
   Dio dio = Dio();
-  Future<GetAllChatModel?> fetchAllChatServices() async {
+  Future<GetAllChatModel?> fetchAllChatServices(index) async {
     String path = ApiConfig.baseUrl + ApiConfig.getChat;
     FlutterSecureStorage storage = const FlutterSecureStorage();
     String? token = await storage.read(key: "access_token");
@@ -19,7 +19,7 @@ class GetAllChatApiServices {
           options: Options(headers: {"authorization": "Bearer $newToken"}));
       if (response.statusCode == 200 || response.statusCode == 201) {
         log(response.data.toString(), name: "jasir");
-        return GetAllChatModel.fromJson(response.data[0]);
+        return GetAllChatModel.fromJson(response.data[index]);
       }
     } on DioError catch (e) {
       log(e.message.toString());

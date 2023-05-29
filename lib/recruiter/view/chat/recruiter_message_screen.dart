@@ -21,12 +21,12 @@ import '../../controller/provider/send_message_provider.dart';
 class RecruiterMessageScreen extends StatefulWidget {
   RecruiterMessageScreen(
       {super.key,
-      required this.chatId,
+      this.chatId,
       required this.role,
       required this.index1,
       required this.receiverId});
 
-  final String chatId;
+  final String? chatId;
   final String role;
   List<ChatResModel>? chatMessage;
   final int index1;
@@ -83,7 +83,7 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
 
         // ignore: use_build_context_synchronously
         await Provider.of<GetAllChatsProvider>(context, listen: false)
-            .fetchPersonalChatProvider(widget.chatId);
+            .fetchPersonalChatProvider(widget.chatId!);
       },
     );
     return Scaffold(
@@ -122,8 +122,6 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
                           Expanded(
                               child: GroupedListView<ChatResModel, DateTime>(
                             elements: value.chatMessage!,
-                            // reverse: true,
-                            // order: GroupedListOrder.DESC,
                             floatingHeader: true,
                             groupBy: (ChatResModel message) => DateTime(
                               message.createdAt.year,
@@ -149,13 +147,16 @@ class _RecruiterMessageScreenState extends State<RecruiterMessageScreen> {
                                   Container(
                                     decoration: widget.receiverId ==
                                             value.chatMessage![index].user
-                                        ? const BoxDecoration(
-                                            color: Colors.grey,
-                                            borderRadius: BorderRadius.only(
-                                                bottomRight:
-                                                    Radius.circular(10),
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(10)))
+                                        ? BoxDecoration(
+                                            color: Colors.grey[700],
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    bottomRight:
+                                                        Radius.circular(10),
+                                                    topLeft:
+                                                        Radius.circular(10),
+                                                    topRight:
+                                                        Radius.circular(10)))
                                         : BoxDecoration(
                                             color: Colors.green[500],
                                             borderRadius: const BorderRadius

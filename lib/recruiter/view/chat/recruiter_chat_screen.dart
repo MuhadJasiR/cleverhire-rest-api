@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/recruiter/controller/provider/get_all_chats_provider.dart';
@@ -10,9 +8,10 @@ import 'package:provider/provider.dart';
 
 import 'recruiter_message_screen.dart';
 
+// ignore: must_be_immutable
 class RecruiterChatScreen extends StatelessWidget {
-  RecruiterChatScreen({super.key});
-
+  RecruiterChatScreen({super.key, this.index});
+  int? index;
   String? newRole;
 
   @override
@@ -22,8 +21,9 @@ class RecruiterChatScreen extends StatelessWidget {
         FlutterSecureStorage storage = const FlutterSecureStorage();
         final role = await storage.read(key: "role");
         newRole = role!.replaceAll('"', '');
+        // ignore: use_build_context_synchronously
         Provider.of<GetAllChatsProvider>(context, listen: false)
-            .fetchingAllChats();
+            .fetchingAllChats(1);
       },
     );
 

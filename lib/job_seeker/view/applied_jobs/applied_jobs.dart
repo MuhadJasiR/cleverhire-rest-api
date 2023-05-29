@@ -3,7 +3,6 @@ import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/job_seeker/controller/provider/get_applied_jobs_provider.dart';
 
 import 'package:cleverhire/job_seeker/view/applied_jobs/view_applied_jobs_details.dart';
-import 'package:cleverhire/recruiter/controller/api_services/getServices/get_all_chat_services.dart';
 import 'package:cleverhire/recruiter/view/chat/recruiter_chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +12,7 @@ class AppliedJobs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GetAllChatApiServices().fetchAllChatServices();
+    // GetAllChatApiServices().fetchAllChatServices(1);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<GetAppliedJobsProvider>(context, listen: false)
           .fetchingAppliedJobs();

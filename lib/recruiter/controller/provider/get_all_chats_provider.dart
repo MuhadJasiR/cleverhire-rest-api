@@ -12,12 +12,12 @@ class GetAllChatsProvider with ChangeNotifier {
   List<Member> filteredChats = [];
   List<Member> recruiterChats = [];
   bool isLoading = false;
-  Future<void> fetchingAllChats() async {
+  Future<void> fetchingAllChats(index) async {
     isLoading = true;
     notifyListeners();
     final getAllChatsApiServices = GetAllChatApiServices();
 
-    await getAllChatsApiServices.fetchAllChatServices().then((value) {
+    await getAllChatsApiServices.fetchAllChatServices(index).then((value) {
       fetchedChats = value!.members;
       notifyListeners();
       chatId = value.id;

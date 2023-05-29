@@ -28,6 +28,7 @@ class SignInServicesApi {
               ),
               background: Colors.red);
         }
+
         if (response.data["status"] == 422) {
           log('Wrong password email');
           return null;
@@ -40,12 +41,12 @@ class SignInServicesApi {
     } on DioError catch (e) {
       showSimpleNotification(
           const Text(
-            "Check your internet connection..!",
+            'Oops! There was a problem with the server. Please try again later.',
             // e.message.toString(),
             style: TextStyle(color: kWhiteColor),
           ),
           background: Colors.red);
-      log("message");
+
       log(e.message.toString());
     }
     return null;
