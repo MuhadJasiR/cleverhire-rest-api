@@ -31,6 +31,12 @@ class SignInServicesApi {
 
         if (response.data["status"] == 422) {
           log('Wrong password email');
+          showSimpleNotification(
+              const Text(
+                "Incorrect password!..",
+                style: TextStyle(color: kWhiteColor),
+              ),
+              background: Colors.red);
           return null;
         } else {
           final SignInRes signInResModel1 = SignInRes.fromJson(response.data);

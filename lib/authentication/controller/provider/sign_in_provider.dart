@@ -17,12 +17,12 @@ class SignInProvider with ChangeNotifier {
   final passwordController = TextEditingController();
 
   Future<void> checkUserSignIn(BuildContext context) async {
+    isLoading = true;
+    notifyListeners();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final signInUser = SignInReqModel(email: email, password: password);
     await SignInServicesApi().signIn(signInUser, context).then((value) async {
-      isLoading = true;
-      notifyListeners();
       if (value != null) {
         storage.write(
             key: 'access_token', value: jsonEncode(value.accessToken));
@@ -42,21 +42,22 @@ class SignInProvider with ChangeNotifier {
               builder: (context) => RecruiterBottomNavigation()));
         } else if (value.user.role == "seeker") {
           // ignore: use_build_context_synchronously
+
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => BottomNavigation()));
         }
 
         disposeTexField();
       } else {
-        log('showing simple notification');
+        log('showing simple notification', name: "value==null");
         // showSimpleNotification(
         //     const Text(
         //       "Email and password does not match!",
         //       style: TextStyle(color: kWhiteColor),
         //     ),
         //     background: Colors.red);
-        isLoading = false;
-        notifyListeners();
+        // isLoading = false;
+        // notifyListeners();
       }
     });
 
