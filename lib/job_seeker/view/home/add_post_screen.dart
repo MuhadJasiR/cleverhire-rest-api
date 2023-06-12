@@ -6,6 +6,7 @@ import 'package:cleverhire/job_seeker/controller/provider/get_uploaded_post_prov
 import 'package:cleverhire/job_seeker/controller/provider/local_functions_provider.dart';
 import 'package:cleverhire/job_seeker/controller/provider/upload_image_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
@@ -28,12 +29,11 @@ class AddPostScreen extends StatelessWidget {
                   if (_formKey.currentState!.validate() &&
                       value2.imageFromGallery != null) {
                     await value.uploadImageProviderFunction(context);
-
-                    // ignore: invalid_use_of_protected_member
                     value.notifyListeners();
-                    value3.fetchUploadedPost();
+                    await value3.fetchUploadedPost();
                     toast("success");
                     value.disposeTextField(context);
+                    Navigator.pop(context);
                   } else {
                     showSimpleNotification(
                         const Text(
@@ -49,8 +49,9 @@ class AddPostScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Consumer2<LocalFunctionProvider, UploadImageProvider>(
-          builder: (context, value, value2, child) => Column(
+        child: Consumer3<LocalFunctionProvider, UploadImageProvider,
+            GetUploadedPostProvider>(
+          builder: (context, value, value2, value3, child) => Column(
             children: [
               Row(
                 children: [
@@ -102,14 +103,16 @@ class AddPostScreen extends StatelessWidget {
                   : const SizedBox(),
               kHeight(10),
               ElevatedButton.icon(
-                onPressed: () {
-                  value.pickImage();
-                },
-                icon: const Icon(Icons.photo_size_select_actual_rounded),
-                label: Text(value.imageFromGallery != null
-                    ? "Change image"
-                    : "add image"),
-              )
+                  onPressed: () {
+                    value.pickImage();
+                  },
+                  icon: const Icon(Icons.photo_size_select_actual_rounded),
+                  label: value3.isLoading || value2.isLoading
+                      ? LoadingAnimationWidget.waveDots(
+                          color: kMainColor, size: 35)
+                      : Text(value.imageFromGallery != null
+                          ? "Change image"
+                          : "add image"))
             ],
           ),
         ),

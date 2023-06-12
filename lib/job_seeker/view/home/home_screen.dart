@@ -44,9 +44,9 @@ class HomeScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 )
               : value.uploadedPost!.isEmpty
-                  ? Column(
+                  ? const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                             "Adding a post can be a great way to share your skills and knowledge with others, helping them to learn and grow.",
                             textAlign: TextAlign.center)
@@ -74,9 +74,6 @@ class HomeScreen extends StatelessWidget {
                                             fontSize: 12, color: Colors.grey),
                                       ),
                                       leading: CircleAvatar(
-                                        backgroundColor: const Color.fromARGB(
-                                            255, 92, 0, 88),
-                                        // ignore: unnecessary_null_comparison
                                         backgroundImage: value
                                                 .uploadedPost![index]
                                                 .user
@@ -84,13 +81,13 @@ class HomeScreen extends StatelessWidget {
                                                 .profileImage
                                                 .isEmpty
                                             ? const AssetImage(
-                                                "assets/profile.png") // use AssetImage for local image assets
+                                                "assets/profile.png") // Default image if profileImage is null
                                             : NetworkImage(value
                                                     .uploadedPost![index]
                                                     .user
                                                     .profile
                                                     .profileImage)
-                                                as ImageProvider<Object>,
+                                                as ImageProvider<Object>?,
                                         radius: 23,
                                       ),
                                       trailing: IconButton(

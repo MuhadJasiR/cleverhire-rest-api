@@ -27,14 +27,20 @@ class GetAppliedJobsProvider with ChangeNotifier {
   }
 
   checkingAppliedOrNot(BuildContext context, index) {
+    isLoading = true;
+    notifyListeners();
     final provider =
         Provider.of<GetCreatedVacancyProvider>(context, listen: false);
     for (var i = 0; i < appliedJobs!.length; i++) {
       if (provider.createdVacancies![index].id == appliedJobs![i].jobId!.id) {
+        isLoading = false;
+        notifyListeners();
         alreadyApplied = true;
         notifyListeners();
         break;
       } else {
+        isLoading = false;
+        notifyListeners();
         alreadyApplied = false;
         notifyListeners();
       }

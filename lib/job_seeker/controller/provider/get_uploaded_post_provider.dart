@@ -12,6 +12,7 @@ class GetUploadedPostProvider with ChangeNotifier {
 
   Future fetchUploadedPost() async {
     isLoading = true;
+    notifyListeners();
     await GetUploadedPostApiServices().getUploadedPost().then((value) {
       uploadedPost = value;
       notifyListeners();

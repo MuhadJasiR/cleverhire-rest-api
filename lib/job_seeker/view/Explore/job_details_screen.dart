@@ -7,6 +7,7 @@ import 'package:cleverhire/job_seeker/view/Explore/resume_uploading_screen.dart'
 import 'package:cleverhire/job_seeker/view/Explore/widget/recruiter_details.dart';
 import 'package:cleverhire/recruiter/controller/provider/get_created_vacancy_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
@@ -78,8 +79,8 @@ class JobDetailsAndApply extends StatelessWidget {
               kHeight(20),
               const Divider(),
               kHeight(20),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Text(
                     "Requirements",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -100,35 +101,40 @@ class JobDetailsAndApply extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              value2.alreadyApplied
-                  ? SizedBox(
-                      width: 200,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 153, 245, 156)),
-                          onPressed: () {
-                            toast("Already applied for this job");
-                          },
-                          child: const Text(
-                            "Applied",
-                            style: TextStyle(fontSize: 18, color: kWhiteColor),
-                          )))
-                  : SizedBox(
-                      width: 200,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: kMainColor),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ResumeUpload(
-                                      index4: index2,
-                                    )));
-                          },
-                          child: const Text(
-                            "Apply Now",
-                            style: TextStyle(fontSize: 18, color: kWhiteColor),
-                          )))
+              value2.isLoading
+                  ? LoadingAnimationWidget.waveDots(
+                      color: Colors.green, size: 35)
+                  : value2.alreadyApplied
+                      ? SizedBox(
+                          width: 200,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 153, 245, 156)),
+                              onPressed: () {
+                                toast("Already applied for this job");
+                              },
+                              child: const Text(
+                                "Applied",
+                                style:
+                                    TextStyle(fontSize: 18, color: kWhiteColor),
+                              )))
+                      : SizedBox(
+                          width: 200,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: kMainColor),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ResumeUpload(
+                                          index4: index2,
+                                        )));
+                              },
+                              child: const Text(
+                                "Apply Now",
+                                style:
+                                    TextStyle(fontSize: 18, color: kWhiteColor),
+                              )))
             ],
           ),
         ),

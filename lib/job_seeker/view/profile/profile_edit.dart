@@ -102,21 +102,16 @@ class ProfileEdit extends StatelessWidget {
                               CircleAvatar(
                                 radius: 70,
                                 backgroundColor: kMainColor,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    provider1.pickImage();
-                                  },
-                                  child: ClipOval(
-                                      child: value.seekerDetails == null
-                                          ? const SizedBox()
-                                          : Image.network(
-                                              value.seekerDetails!.profile
-                                                  .profileImage,
-                                              width: 150,
-                                              height: 150,
-                                              fit: BoxFit.cover,
-                                            )),
-                                ),
+                                child: ClipOval(
+                                    child: value.seekerDetails == null
+                                        ? const SizedBox()
+                                        : Image.network(
+                                            value.seekerDetails!.profile
+                                                .profileImage,
+                                            width: 150,
+                                            height: 150,
+                                            fit: BoxFit.cover,
+                                          )),
                               ),
                               kHeight(15),
                               // const Text("Upload profile photo"),

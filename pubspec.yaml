@@ -41,7 +41,7 @@ dependencies:
     sdk: flutter
   flutter_secure_storage: ^8.0.0
   google_fonts: ^4.0.3
-  image_picker: ^0.8.7
+  image_picker: ^0.8.8
   inspector: ^2.0.1
   intl: ^0.18.0
   like_button: ^2.0.5

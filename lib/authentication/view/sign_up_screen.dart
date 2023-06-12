@@ -10,6 +10,7 @@ import 'package:cleverhire/authentication/view/sign_in_screen.dart';
 import 'package:cleverhire/widgets/main_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
@@ -230,14 +231,13 @@ class SignUpScreen extends StatelessWidget {
                                               onPressed: () async {
                                                 if (formKey.currentState!
                                                     .validate()) {
-                                                  toast(
-                                                      "     Loading\n\nSending OTP...");
-
                                                   String result = await provider
                                                       .checkUserSignUp(context);
                                                   // provider.disposeTextField();
                                                   log(result);
                                                   if (result == 'success') {
+                                                    provider.isLoading == false;
+                                                    provider.notifyListeners();
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
                                                             builder: (ctc) {
@@ -245,17 +245,24 @@ class SignUpScreen extends StatelessWidget {
                                                     })).then((value) => provider
                                                         .disposeTextField());
                                                   } else {
+                                                    provider.isLoading == false;
+                                                    provider.notifyListeners();
                                                     showSimpleNotification(
                                                         Text(result));
                                                   }
                                                 }
                                               },
-                                              child: const Text(
-                                                "Agree & join",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: kWhiteColor),
-                                              ),
+                                              child: provider.isLoading
+                                                  ? LoadingAnimationWidget
+                                                      .waveDots(
+                                                          color: Colors.white,
+                                                          size: 40)
+                                                  : const Text(
+                                                      "Agree & join",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: kWhiteColor),
+                                                    ),
                                             ),
                                           ),
                                         ],

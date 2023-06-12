@@ -1,10 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/authentication/controller/provider/otp_verification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
@@ -347,12 +348,17 @@ class OtpVerificationScreen extends StatelessWidget {
                                     background: Colors.red,
                                     foreground: Colors.white);
                               }
+                              provider.disposeOtpTextField();
                             }
                           },
-                          child: const Text(
-                            "Verify",
-                            style: TextStyle(fontSize: 20, color: kWhiteColor),
-                          ),
+                          child: provider.isLoading
+                              ? LoadingAnimationWidget.waveDots(
+                                  color: kWhiteColor, size: 40)
+                              : const Text(
+                                  "Verify",
+                                  style: TextStyle(
+                                      fontSize: 20, color: kWhiteColor),
+                                ),
                         ),
                       ),
                       kHeight(30),

@@ -11,6 +11,7 @@ class SignUpProvider with ChangeNotifier {
   bool isLoading = false;
   Future<String> checkUserSignUp(BuildContext context) async {
     isLoading = true;
+    notifyListeners();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final userName = userNameController.text.trim();

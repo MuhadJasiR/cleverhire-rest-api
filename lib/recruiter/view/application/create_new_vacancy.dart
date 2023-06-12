@@ -220,10 +220,7 @@ class CreateNewVacancyAndUpdateScreen extends StatelessWidget {
                               if (vacancyId != null) {
                                 await value3.updateVacancyProvider(
                                     vacancyId!, context);
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RecruiterBottomNavigation()));
+                                Navigator.pop(context);
                               } else {
                                 if (formkey.currentState!.validate()) {
                                   await value.createVacancy();

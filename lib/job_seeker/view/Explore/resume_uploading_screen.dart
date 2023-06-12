@@ -62,8 +62,8 @@ class ResumeUpload extends StatelessWidget {
               ),
               const Divider(),
               kHeight(5),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Text(
                     "Upload Resume/CV",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
@@ -71,8 +71,8 @@ class ResumeUpload extends StatelessWidget {
                 ],
               ),
               kHeight(10),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Text(
                       "Upload your CV or Resume to apply for the job vacancy."),
                 ],

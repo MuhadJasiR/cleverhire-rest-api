@@ -12,6 +12,8 @@ class UploadImageProvider with ChangeNotifier {
   TextEditingController descriptionController = TextEditingController();
   bool isLoading = false;
   Future uploadImageProviderFunction(BuildContext context) async {
+    isLoading = true;
+    notifyListeners();
     final providerFirebase =
         Provider.of<FirebaseStorageProvider>(context, listen: false);
     final providerLocalFunction =
@@ -20,8 +22,7 @@ class UploadImageProvider with ChangeNotifier {
         providerLocalFunction.imageFromGallery!.path,
         providerLocalFunction.imageGalleryName!.path,
         "postImages");
-    isLoading = true;
-    notifyListeners();
+
     final description = descriptionController.text.trim();
 
     if (providerFirebase.downloadUrl != null) {
@@ -35,9 +36,9 @@ class UploadImageProvider with ChangeNotifier {
       isLoading = false;
       notifyListeners();
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => BottomNavigation()));
     } else {
+      isLoading = false;
+      notifyListeners();
       log("Error : your download url is null");
     }
   }

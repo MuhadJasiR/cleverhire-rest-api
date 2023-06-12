@@ -19,6 +19,7 @@ class OtpVerificationProvider with ChangeNotifier {
   Future<String> otpVerificationChecking(BuildContext context) async {
     final provider = Provider.of<SignUpProvider>(context, listen: false);
     isLoading = true;
+    notifyListeners();
     String otp = textEditingController1.text +
         textEditingController2.text +
         textEditingController3.text +
@@ -35,7 +36,18 @@ class OtpVerificationProvider with ChangeNotifier {
           key: 'access_token', value: signUpResModel.accessToken);
       return "success";
     } else {
+      isLoading = false;
+      notifyListeners();
       return "Invalid OTP sent";
     }
+  }
+
+  disposeOtpTextField() {
+    textEditingController1.clear();
+    textEditingController2.clear();
+    textEditingController3.clear();
+    textEditingController4.clear();
+    textEditingController5.clear();
+    textEditingController6.clear();
   }
 }
