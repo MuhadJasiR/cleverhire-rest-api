@@ -1,3 +1,4 @@
+import 'package:cleverhire/authentication/view/sign_in_screen.dart';
 import 'package:cleverhire/job_seeker/controller/firebase/storage_services.dart';
 import 'package:cleverhire/job_seeker/controller/provider/applying_for_vacancy_provider.dart';
 import 'package:cleverhire/job_seeker/controller/provider/get_applied_jobs_provider.dart';

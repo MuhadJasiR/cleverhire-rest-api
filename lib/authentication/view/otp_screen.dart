@@ -1,12 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
+import 'dart:developer';
+
 import 'package:cleverhire/core/color/color.dart';
 import 'package:cleverhire/core/constraints/constraints.dart';
 import 'package:cleverhire/authentication/controller/provider/otp_verification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 import 'starting_screen.dart';
@@ -48,283 +50,26 @@ class OtpVerificationScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       kHeight(50),
-                      Form(
-                          key: otpFormKey,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    // color: kMainColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 50,
-                                child: TextFormField(
-                                  controller: provider.textEditingController1,
-                                  onChanged: (value) {
-                                    if (value.length == 1) {
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
-                                      // fillColor: kMainColor,
-                                      // filled: false,
-                                      border: InputBorder.none),
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(1),
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    // color: kMainColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 50,
-                                child: TextFormField(
-                                  controller: provider.textEditingController2,
-                                  onChanged: (value) {
-                                    if (value.length == 1) {
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
-                                      // fillColor: kMainColor,
-                                      // filled: false,
-                                      border: InputBorder.none),
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(1),
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    // color: kMainColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 50,
-                                child: TextFormField(
-                                  controller: provider.textEditingController3,
-                                  onChanged: (value) {
-                                    if (value.length == 1) {
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
-                                      // fillColor: kMainColor,
-                                      // filled: false,
-                                      border: InputBorder.none),
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(1),
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    // color: kMainColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 50,
-                                child: TextFormField(
-                                  controller: provider.textEditingController4,
-                                  onChanged: (value) {
-                                    if (value.length == 1) {
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
-                                      // fillColor: kMainColor,
-                                      // filled: false,
-                                      border: InputBorder.none),
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(1),
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    // color: kMainColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 50,
-                                child: TextFormField(
-                                  controller: provider.textEditingController5,
-                                  onChanged: (value) {
-                                    if (value.length == 1) {
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
-                                      // fillColor: kMainColor,
-                                      // filled: false,
-                                      border: InputBorder.none),
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(1),
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    // color: kMainColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 50,
-                                child: TextFormField(
-                                  controller: provider.textEditingController6,
-                                  onChanged: (value) {
-                                    if (value.length == 1) {
-                                      FocusScope.of(context).nextFocus();
-                                    }
-                                  },
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                          borderSide:
-                                              BorderSide(color: kMainColor)),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
-                                      // fillColor: kMainColor,
-                                      // filled: false,
-                                      border: InputBorder.none),
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(1),
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          )),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Pinput(
+                          onCompleted: (value) {
+                            provider.otp = value;
+                            log(provider.otp!);
+                          },
+                          length: 6,
+                          showCursor: true,
+                          defaultPinTheme: PinTheme(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: kMainColor)),
+                            textStyle: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
                       kHeight(40),
                       SizedBox(
                         width: 200,
@@ -333,7 +78,7 @@ class OtpVerificationScreen extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: kMainColor),
                           onPressed: () async {
-                            if (otpFormKey.currentState!.validate()) {
+                            if (provider.otp != null) {
                               String result = await provider
                                   .otpVerificationChecking(context);
 
@@ -349,6 +94,14 @@ class OtpVerificationScreen extends StatelessWidget {
                                     foreground: Colors.white);
                               }
                               provider.disposeOtpTextField();
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                        "Enter 6-Digit code",
+                                        style: TextStyle(color: Colors.white),
+                                      )));
                             }
                           },
                           child: provider.isLoading

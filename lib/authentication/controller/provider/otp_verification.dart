@@ -7,28 +7,17 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class OtpVerificationProvider with ChangeNotifier {
-  TextEditingController textEditingController1 = TextEditingController();
-  TextEditingController textEditingController2 = TextEditingController();
-  TextEditingController textEditingController3 = TextEditingController();
-  TextEditingController textEditingController4 = TextEditingController();
-  TextEditingController textEditingController5 = TextEditingController();
-  TextEditingController textEditingController6 = TextEditingController();
   FlutterSecureStorage signUpStorage = const FlutterSecureStorage();
-
+  String? otp;
   bool isLoading = false;
   Future<String> otpVerificationChecking(BuildContext context) async {
     final provider = Provider.of<SignUpProvider>(context, listen: false);
     isLoading = true;
     notifyListeners();
-    String otp = textEditingController1.text +
-        textEditingController2.text +
-        textEditingController3.text +
-        textEditingController4.text +
-        textEditingController5.text +
-        textEditingController6.text;
+
     final email = provider.emailController.text.trim();
 
-    final verifiedOtp = SignUpOtpModel(email: email, otp: int.parse(otp));
+    final verifiedOtp = SignUpOtpModel(email: email, otp: int.parse(otp!));
     SignUpResModel? signUpResModel =
         await OtpServicesApi().otpVerification(verifiedOtp, context);
     if (signUpResModel != null) {
@@ -42,12 +31,5 @@ class OtpVerificationProvider with ChangeNotifier {
     }
   }
 
-  disposeOtpTextField() {
-    textEditingController1.clear();
-    textEditingController2.clear();
-    textEditingController3.clear();
-    textEditingController4.clear();
-    textEditingController5.clear();
-    textEditingController6.clear();
-  }
+  disposeOtpTextField() {}
 }

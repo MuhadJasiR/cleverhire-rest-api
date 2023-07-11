@@ -57,9 +57,9 @@ class RecruiterHomeScreen extends StatelessWidget {
                           style: TextStyle(fontSize: 14, color: Colors.grey),
                         ),
                         kHeight(10),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text("Create vacancy"),
                             Icon(Icons.arrow_right_alt_rounded),
                           ],

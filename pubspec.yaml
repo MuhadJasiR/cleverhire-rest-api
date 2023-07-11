@@ -57,6 +57,7 @@ dependencies:
   socket_io_client: ^2.0.1
   settings_ui: ^2.0.2
   loading_animation_widget: ^1.2.0+4
+  pinput: ^2.2.31
   
 
 dev_dependencies:
