@@ -1,6 +1,12 @@
 # cleverhire
 
-A new Flutter project.
+CleverHire is a user-friendly job portal app that benefits job seekers
+and recruiters. It offers profile creation, job search, and easy application
+submission for job seekers. Recruiters can manage vacancies, review
+applications, and chat with potential candidates. Job seekers can also
+share job-related content with others in the community as a post.
+CleverHire simplifies the job search and recruitment process, making it
+convenient for all users.
 
 ## Getting Started
 
