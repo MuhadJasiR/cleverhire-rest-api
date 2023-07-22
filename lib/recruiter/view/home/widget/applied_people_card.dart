@@ -7,8 +7,10 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class AppliedPeopleCard extends StatelessWidget {
-  AppliedPeopleCard({super.key, required this.index});
+  AppliedPeopleCard(
+      {super.key, required this.index, required this.seekerDetailsId});
   int index;
+  String seekerDetailsId;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -59,6 +61,7 @@ class AppliedPeopleCard extends StatelessWidget {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => JobSeekerDetails(
                                         index: index,
+                                        seekerDetailsId: seekerDetailsId,
                                       )));
                             },
                             child: const Text("See Details"))

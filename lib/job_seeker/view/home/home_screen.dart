@@ -55,6 +55,9 @@ class HomeScreen extends StatelessWidget {
                   : ListView.separated(
                       controller: ScrollController(),
                       itemBuilder: (context, index) {
+                        bool isNetworkImage = value
+                            .uploadedPost![index].user.profile!.profileImage
+                            .startsWith("http");
                         return Column(
                           children: [
                             Card(
@@ -74,18 +77,16 @@ class HomeScreen extends StatelessWidget {
                                             fontSize: 12, color: Colors.grey),
                                       ),
                                       leading: CircleAvatar(
-                                        backgroundImage: value
+                                        backgroundImage: isNetworkImage
+                                            ? NetworkImage(value
                                                 .uploadedPost![index]
                                                 .user
-                                                .profile
-                                                .profileImage
-                                                .isEmpty
-                                            ? const AssetImage(
-                                                "assets/profile.png") // Default image if profileImage is null
-                                            : NetworkImage(value
+                                                .profile!
+                                                .profileImage)
+                                            : AssetImage(value
                                                     .uploadedPost![index]
                                                     .user
-                                                    .profile
+                                                    .profile!
                                                     .profileImage)
                                                 as ImageProvider<Object>?,
                                         radius: 23,
@@ -149,14 +150,7 @@ class HomeScreen extends StatelessWidget {
                                                 "assets/7728-image-loading-improved.gif",
                                             image: value
                                                 .uploadedPost![index].image),
-                                    // value.isLoading
-                                    //     ? const Center(
-                                    //         child: CircularProgressIndicator(),
-                                    //       )
-                                    //     : Image.network(
-                                    //         value.uploadedPost![index].image,
-                                    //         fit: BoxFit.fitWidth,
-                                    //       ),
+
                                     const Divider(),
                                     SizedBox(
                                       width: double.infinity,

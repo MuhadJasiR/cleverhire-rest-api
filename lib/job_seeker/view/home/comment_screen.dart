@@ -78,14 +78,14 @@ class CommentScreen extends StatelessWidget {
                                       .uploadedPost![index1]
                                       .comments[index]
                                       .user
-                                      .profile
+                                      .profile!
                                       .profileImage
                                       .isNotEmpty
                                   ? NetworkImage(value
                                       .uploadedPost![index1]
                                       .comments[index]
                                       .user
-                                      .profile
+                                      .profile!
                                       .profileImage)
                                   : const AssetImage("assets/profile.png")
                                       as ImageProvider<Object>),

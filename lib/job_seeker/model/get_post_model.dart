@@ -93,19 +93,31 @@ class User {
   bool verified;
   String role;
   int v;
-  Profile profile;
+  Profile? profile;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["_id"],
-        username: json["username"],
-        email: json["email"],
-        password: json["password"],
-        otp: json["otp"],
-        verified: json["verified"],
-        role: json["role"],
-        v: json["__v"],
-        profile: Profile.fromJson(json["profile"]),
-      );
+  factory User.fromJson(Map<String, dynamic> json) {
+    final profileJson = json["profile"];
+    Profile? profile;
+    if (profile != null) {
+      profile = Profile.fromJson(profileJson);
+    } else {
+      profile = Profile(
+          dateOfBirth: DateTime.now(),
+          address: "New-York street 13 miami",
+          profileImage: "assets/profile.png");
+    }
+    return User(
+      id: json["_id"],
+      username: json["username"],
+      email: json["email"],
+      password: json["password"],
+      otp: json["otp"],
+      verified: json["verified"],
+      role: json["role"],
+      v: json["__v"],
+      profile: profile,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "_id": id,

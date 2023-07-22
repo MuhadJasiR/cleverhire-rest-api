@@ -23,9 +23,10 @@ class SplashScreen extends StatelessWidget {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool seen = (prefs.getBool("seen") ?? false);
       String? token = await storage.read(key: 'access_token');
+      log(token.toString(), name: "token splash screen");
       String? roleChecking = await storage.read(key: 'role');
-      log(roleChecking!);
-      final String role = roleChecking;
+      // log(roleChecking!);
+      final String? role = roleChecking;
       if (token == null) {
         splashScreen(context);
       } else if (seen) {

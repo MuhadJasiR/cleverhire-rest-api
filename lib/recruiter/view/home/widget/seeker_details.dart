@@ -5,12 +5,18 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SeekerDetails extends StatelessWidget {
-  SeekerDetails({super.key, required this.index});
+  SeekerDetails(
+      {super.key, required this.index, required this.seekerDetailsId});
 
   int index;
+  String seekerDetailsId;
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<GetAppliedPeoplesProvider>(context)
+          .fetchingAppliedPeople(seekerDetailsId);
+    });
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Consumer<GetAppliedPeoplesProvider>(

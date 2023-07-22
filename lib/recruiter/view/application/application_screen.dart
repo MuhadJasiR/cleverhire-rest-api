@@ -169,14 +169,11 @@ class RecruiterApplicationScreen extends StatelessWidget {
                                                                           await DeleteJobVacancyApiServices().deleteJobVacancy(value
                                                                               .createdVacancy![index]
                                                                               .id);
-                                                                          value
+                                                                          await value
                                                                               .fetchCreatedVacancies();
 
-                                                                          // ignore: use_build_context_synchronously
-                                                                          Navigator.of(context)
-                                                                              .pushReplacement(
-                                                                            MaterialPageRoute(builder: (context) => RecruiterBottomNavigation()),
-                                                                          );
+                                                                          Navigator.pop(
+                                                                              context);
                                                                         },
                                                                         child:
                                                                             const Text(

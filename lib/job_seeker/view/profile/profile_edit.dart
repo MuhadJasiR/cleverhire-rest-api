@@ -105,7 +105,7 @@ class ProfileEdit extends StatelessWidget {
                                 child: ClipOval(
                                     child: value.seekerDetails == null
                                         ? const SizedBox()
-                                        : Image.network(
+                                        : Image.asset(
                                             value.seekerDetails!.profile
                                                 .profileImage,
                                             width: 150,

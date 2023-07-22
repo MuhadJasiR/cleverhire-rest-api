@@ -113,8 +113,8 @@ class RecruiterHomeScreen extends StatelessWidget {
                                     ),
                                   ),
                         kHeight(20),
-                        Row(
-                          children: const [
+                        const Row(
+                          children: [
                             Text(
                               "Recently applied people",
                               style: TextStyle(
@@ -157,6 +157,9 @@ class RecruiterHomeScreen extends StatelessWidget {
                                         itemBuilder: (context, index) =>
                                             AppliedPeopleCard(
                                           index: index,
+                                          seekerDetailsId: value
+                                              .createdVacancies![value.indexId!]
+                                              .id,
                                         ),
                                       ),
                       ],

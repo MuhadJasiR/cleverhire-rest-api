@@ -19,17 +19,28 @@ class SeekerDetailsResModel {
   int v;
   Profile profile;
 
-  factory SeekerDetailsResModel.fromJson(Map<String, dynamic> json) =>
-      SeekerDetailsResModel(
-        id: json["_id"],
-        username: json["username"],
-        email: json["email"],
-        otp: json["otp"],
-        verified: json["verified"],
-        role: json["role"],
-        v: json["__v"],
-        profile: Profile.fromJson(json["profile"]),
-      );
+  factory SeekerDetailsResModel.fromJson(Map<String, dynamic> json) {
+    final profileJson = json["profile"];
+    Profile? profile;
+    if (profile != null) {
+      profile = Profile.fromJson(profileJson);
+    } else {
+      profile = Profile(
+          dateOfBirth: DateTime.now(),
+          address: "New-York street 13 miami",
+          profileImage: "assets/profile.png");
+    }
+    return SeekerDetailsResModel(
+      id: json["_id"],
+      username: json["username"],
+      email: json["email"],
+      otp: json["otp"],
+      verified: json["verified"],
+      role: json["role"],
+      v: json["__v"],
+      profile: profile,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "_id": id,

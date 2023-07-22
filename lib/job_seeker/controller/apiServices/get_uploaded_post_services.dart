@@ -21,7 +21,7 @@ class GetUploadedPostApiServices {
         options: Options(headers: {"authorization": "Bearer $newToken"}),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        log(response.data.toString());
+        log(response.data.toString(), name: "fetching post image");
         final List<GetUploadImageModel> uploadedImagePost =
             (response.data as List)
                 .map((e) => GetUploadImageModel.fromJson(e))

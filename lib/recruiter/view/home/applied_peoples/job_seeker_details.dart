@@ -21,10 +21,12 @@ const List<String> seekerStatus = [
 ];
 
 class JobSeekerDetails extends StatelessWidget {
-  JobSeekerDetails({super.key, required this.index});
+  JobSeekerDetails(
+      {super.key, required this.index, required this.seekerDetailsId});
 
   int index;
   String? newRole;
+  String seekerDetailsId;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class JobSeekerDetails extends StatelessWidget {
       FlutterSecureStorage storage = const FlutterSecureStorage();
       final role = await storage.read(key: "role");
       newRole = role!.replaceAll('"', '');
+      Provider.of<GetAppliedPeoplesProvider>(context);
     });
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -87,8 +90,11 @@ class JobSeekerDetails extends StatelessWidget {
                         )),
                   ),
                   const Divider(),
-                  SeekerDetails(
-                    index: index,
+                  Expanded(
+                    child: SeekerDetails(
+                      seekerDetailsId: seekerDetailsId,
+                      index: index,
+                    ),
                   ),
                   SizedBox(
                       width: 250,

@@ -224,7 +224,6 @@ class CreateNewVacancyAndUpdateScreen extends StatelessWidget {
                               } else {
                                 if (formkey.currentState!.validate()) {
                                   await value.createVacancy();
-
                                   value.notifyListeners();
                                   value.disposeTextField();
                                   await value2.fetchCreatedVacancies();
